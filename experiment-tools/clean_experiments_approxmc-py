@@ -1,0 +1,9 @@
+#!/bin/bash
+expdir=experiments-approxmc-py
+#cd $expdir/quail/SmartGrid/C
+#./exp_clean
+#cd ../../../..
+#cd $expdir/quail/Voting/C
+#./exp_clean
+#cd ../../../..
+rm -rf $expdir/klebanov-provided

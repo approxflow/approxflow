@@ -1,0 +1,12 @@
+#!/bin/bash
+dirname=$1
+files=$(ls -R1 $dirname | while read l; do case $l in *:) d=${l%:};; "") d=;; *) echo "$d/$l";; esac; done)
+
+for file in $files
+do
+  if [[ ! -d $file ]]; then
+    if [[ $file == *.c ]]; then
+      python func_calls.py $file - true false
+  fi
+  fi 
+done

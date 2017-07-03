@@ -1,0 +1,4 @@
+int div2(int i) {
+  int v = i / 2;
+  return v;
+}

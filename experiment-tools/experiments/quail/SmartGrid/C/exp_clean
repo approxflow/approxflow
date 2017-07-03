@@ -1,0 +1,3 @@
+rm -rf *.c
+rm -rf *.c.cnf
+rm -rf *.c.cnf.scope

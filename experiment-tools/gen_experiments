@@ -1,0 +1,66 @@
+#!/bin/bash
+expdir=experiments
+#echo "Generating backes-rybal experiments"
+#./gen_experimental_cnfs_using_func_calls $expdir/backes-rybal
+#echo "Generating klebanov-qest experiments"
+#./gen_experimental_cnfs_using_func_calls $expdir/klebanov-qest
+#echo "Generating meng-smith experiments"
+#./gen_experimental_cnfs_using_func_calls $expdir/meng-smith
+#echo "Generating nms-experiments"
+#./gen_experimental_cnfs_using_func_calls $expdir/nms
+
+# echo "Generating QUAIL SmartGrid experiments"
+# cd $expdir/quail/SmartGrid/C
+# echo "  Generating QUAIL SmartGrid single-consumption experiments"
+# ./generator_single_full.py
+# echo "  Generating QUAIL SmartGrid all-house experiments"
+# ./generator_all_full.py
+# echo "Generating QUAIL Voting experiments"
+# cd ../../Voting/C
+# echo "  Generating QUAIL voting single-preference experiments"
+# ./generator_single_full.py
+# echo "  Generating QUAIL voting preference-ranking experiments"
+# ./generator_ranking_full.py
+# cd ../../../..
+echo "Setting up Klebanov-provided experiments' directory structure"
+echo "  Extracting klebanov-experiments.tar.gz"
+tar -xf klebanov-experiments.tar.gz
+mv klebanov-experiments $expdir/klebanov-provided
+cd $expdir/klebanov-provided/apple_talk
+echo "  Extracting apple_talk/atalk-code.tgz and cleaning directory structure"
+tar -xf atalk-code.tgz
+rm -rf appletalk/*.cnf
+cd ../swirl
+echo "  Removing swirl/preimage (non-projected experiments)"
+rm -rf preimage/*.cnf.gz
+rm -rf preimage/README
+echo "  Inflating swirl.trans.cnf.gz"
+gunzip swirl.trans.cnf.gz
+cd ../qapl2016
+echo "  Inflating OpenSSL cnf files"
+gunzip *.gz
+cd ../../..
+echo "  Copying scope generation scripts"
+cp klebanov_scope_generator.py $expdir/klebanov-provided/apple_talk/scope_generator.py
+cp klebanov_scope_generator.py $expdir/klebanov-provided/meng_smith/scope_generator.py
+cp klebanov_scope_generator.py $expdir/klebanov-provided/qapl2016/scope_generator.py
+cp klebanov_scope_generator.py $expdir/klebanov-provided/swirl/scope_generator.py
+echo "  Done setting up directory structure!"
+
+cd $expdir/klebanov-provided
+echo "Generating Klebanov experiments"
+cd apple_talk
+echo "  Generating apple_talk projection scopes"
+./scope_generator.py
+cd ../meng_smith
+echo "  Generating meng_smith projection scopes"
+./scope_generator.py
+cd ../qapl2016
+echo "  Generating OpenSSL projection scopes"
+./scope_generator.py
+cd ../swirl
+echo "  Generating Image Anonymzation projection scopes"
+./scope_generator.py
+cd ../../..
+
+echo "Done!"
